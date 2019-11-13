@@ -80,15 +80,15 @@ function getAes(op) {
           var cipher = nodeCrypto.createCipheriv('aes-256-cbc', key, iv);
           var encrypted = cipher.update(data, "utf8", "hex");
           encrypted += cipher.final("hex");
-          resolve(encrypted);
+          resolve(Buffer.from(encrypted, "hex"));
           // cipher.update(data);
           // resolve(cipher.final());
         }
         else if (op === 'decrypt') {
           var decipher = nodeCrypto.createDecipheriv('aes-256-cbc', key, iv);
-          var decrypted = decipher.update(data, "utf8", "hex");
-          decrypted += decipher.final("hex");
-          resolve(decrypted);
+          var decrypted = decipher.update(data, "hex", "utf8");
+          decrypted += decipher.final("utf8");
+          resolve(Buffer.from(decrypted));
           // decipher.update(data);
           // resolve(decipher.final());
         }

@@ -60,14 +60,17 @@ function aes256CbcEncrypt(iv, key, plaintext) {
 }
 
 function aes256CbcDecrypt(iv, key, ciphertext) {
-  var cipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
+  var decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
   // var firstChunk = cipher.update(ciphertext);
   // var secondChunk = cipher.final();
   // return Buffer.concat([firstChunk, secondChunk]);
 
-  var decrypted = cipher.update(ciphertext, "utf8", "hex");
-  decrypted += cipher.final("hex");
-  return decrypted;
+  // var decrypted = cipher.update(ciphertext, "utf8", "hex");
+  // decrypted += cipher.final("hex");
+
+  var decrypted = decipher.update(ciphertext, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+  return Buffer.from(decrypted);
 }
 
 function hmacSha256(key, msg) {
