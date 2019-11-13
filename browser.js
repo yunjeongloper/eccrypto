@@ -78,13 +78,19 @@ function getAes(op) {
       } else {
         if (op === 'encrypt') {
           var cipher = nodeCrypto.createCipheriv('aes-256-cbc', key, iv);
-          cipher.update(data);
-          resolve(cipher.final());
+          var encrypted = cipher.update(data, "utf8", "hex");
+          encrypted += cipher.final("hex");
+          resolve(encrypted);
+          // cipher.update(data);
+          // resolve(cipher.final());
         }
         else if (op === 'decrypt') {
           var decipher = nodeCrypto.createDecipheriv('aes-256-cbc', key, iv);
-          decipher.update(data);
-          resolve(decipher.final());
+          var decrypted = decipher.update(data, "utf8", "hex");
+          decrypted += decipher.final("hex");
+          resolve(decrypted);
+          // decipher.update(data);
+          // resolve(decipher.final());
         }
       }
     });
