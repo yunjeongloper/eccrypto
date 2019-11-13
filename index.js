@@ -50,16 +50,24 @@ function sha512(msg) {
 
 function aes256CbcEncrypt(iv, key, plaintext) {
   var cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
-  var firstChunk = cipher.update(plaintext);
-  var secondChunk = cipher.final();
-  return Buffer.concat([firstChunk, secondChunk]);
+  // var firstChunk = cipher.update(plaintext);
+  // var secondChunk = cipher.final();
+  // return Buffer.concat([firstChunk, secondChunk]);
+
+  var encrypted = cipher.update(plaintext, "utf8", "hex");
+  encrypted += cipher.final("hex");
+  return encrypted;
 }
 
 function aes256CbcDecrypt(iv, key, ciphertext) {
   var cipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
-  var firstChunk = cipher.update(ciphertext);
-  var secondChunk = cipher.final();
-  return Buffer.concat([firstChunk, secondChunk]);
+  // var firstChunk = cipher.update(ciphertext);
+  // var secondChunk = cipher.final();
+  // return Buffer.concat([firstChunk, secondChunk]);
+
+  var decrypted = cipher.update(ciphertext, "utf8", "hex");
+  decrypted += cipher.final("hex");
+  return decrypted;
 }
 
 function hmacSha256(key, msg) {
